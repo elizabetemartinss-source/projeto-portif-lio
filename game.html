@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Jogo da Velha</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .board { display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 5px; margin-top: 20px; }
+        .cell { width: 100px; height: 100px; background: #eee; display: flex; align-items: center; 
+                justify-content: center; font-size: 2em; cursor: pointer; border-radius: 8px; }
+        .cell:hover { background: #ddd; }
+        #status { margin-top: 20px; font-weight: bold; }
+        button { margin-top: 20px; padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Jogo da Velha 🎮</h2>
+    <div id="status">Vez do Jogador: X</div>
+    <div class="board" id="board">
+        <div class="cell" onclick="makeMove(this, 0)"></div>
+        <div class="cell" onclick="makeMove(this, 1)"></div>
+        <div class="cell" onclick="makeMove(this, 2)"></div>
+        <div class="cell" onclick="makeMove(this, 3)"></div>
+        <div class="cell" onclick="makeMove(this, 4)"></div>
+        <div class="cell" onclick="makeMove(this, 5)"></div>
+        <div class="cell" onclick="makeMove(this, 6)"></div>
+        <div class="cell" onclick="makeMove(this, 7)"></div>
+        <div class="cell" onclick="makeMove(this, 8)"></div>
+    </div>
+    <button onclick="resetGame()">Reiniciar Jogo</button>
+
+    <script>
+        let currentPlayer = "X";
+        let gameState = ["", "", "", "", "", "", "", "", ""];
+        const winConditions = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
+
+        function makeMove(cell, index) {
+            if (gameState[index] !== "" || checkWinner()) return;
+            gameState[index] = currentPlayer;
+            cell.innerText = currentPlayer;
+            if (checkWinner()) {
+                document.getElementById("status").innerText = "Jogador " + currentPlayer + " Venceu! 🎉";
+            } else if (!gameState.includes("")) {
+                document.getElementById("status").innerText = "Empate! 🤝";
+            } else {
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+                document.getElementById("status").innerText = "Vez do Jogador: " + currentPlayer;
+            }
+        }
+
+        function checkWinner() {
+            return winConditions.some(condition => {
+                return condition.every(index => gameState[index] === currentPlayer);
+            });
+        }
+
+        function resetGame() {
+            gameState = ["", "", "", "", "", "", "", "", ""];
+            currentPlayer = "X";
+            document.querySelectorAll(".cell").forEach(cell => cell.innerText = "");
+            document.getElementById("status").innerText = "Vez do Jogador: X";
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: #0f0f13; /* Fundo escuro para destacar o neon */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .btn-gamer {
+            position: relative;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #00f2ff;
+            background: #1a1a2e;
+            border: 2px solid #00f2ff;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            /* Efeito de brilho externo suave */
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+
+        /* Ícone de seta */
+        .btn-gamer span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        /* Efeito de Hover (Passar o mouse) */
+        .btn-gamer:hover {
+            color: #ffffff;
+            background: #00f2ff;
+            box-shadow: 0 0 30px #00f2ff, 0 0 60px rgba(0, 242, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .btn-gamer:hover span {
+            transform: translateX(-5px); /* Move a seta para a esquerda */
+        }
+
+        /* Animação de Pulsação Gamer */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(0, 242, 255, 0.8); }
+            100% { box-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
+        }
+
+        .btn-gamer {
+            animation: pulse 2s infinite;
+        }
+
+        /* Efeito de "Click" */
+        .btn-gamer:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Link de Voltar -->
+    <button class="btn-gamer" onclick="window.history.back()">
+        <span>&larr;</span> VOLTAR
+    </button>
+
+</body>
+</html>
